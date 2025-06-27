@@ -1,8 +1,11 @@
 pipeline {
 
     agent any
-
     //escenarios -> escenario -> pasos
+    environment{
+        NPM_CONFIG_CACHE="${WORKSPACE}/.npm"
+    }
+
     stages{
         stage ("saludo a usuario") {
             steps{
@@ -27,6 +30,11 @@ pipeline {
                 stage("instalacion de dependencias"){
                     steps{
                         sh 'npm ci'
+                    }
+                }
+                stage("ejecucion de pruebas"){
+                    steps{
+                        sh 'npm run test:cov'
                     }
                 }
             }
