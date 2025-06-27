@@ -52,10 +52,10 @@ pipeline {
             steps{
                 script{
                     docker.withRegistry("${registry}", registryCredentials){
-                    sh "docker build -t backend-nest-gaboyanez ."
-                    sh "dokcer tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
-                    sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
-                }
+                        sh "docker build -t backend-nest-gaboyanez ."
+                        sh "docker tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
+                        sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
+                    }
                 }
                 
             }
