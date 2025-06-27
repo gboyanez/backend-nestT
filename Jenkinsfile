@@ -14,8 +14,7 @@ pipeline {
                 sh '"saliendo de este grupo de escenarios"'
             }
         }
-    }
-    stages{
+
         stage ("proceso de build y test") {
             agent {
                 docker {
@@ -34,5 +33,4 @@ pipeline {
 
         }
     }
-
 }
