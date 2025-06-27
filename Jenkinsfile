@@ -14,7 +14,7 @@ pipeline {
         }
         stage ("salida de los saludos a usuario") {
             steps{
-                sh '"saliendo de este grupo de escenarios"'
+                sh 'echo "saliendo de este grupo de escenarios"'
             }
         }
 
