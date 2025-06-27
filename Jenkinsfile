@@ -4,7 +4,9 @@ pipeline {
     //escenarios -> escenario -> pasos
     environment{
         NPM_CONFIG_CACHE="${WORKSPACE}/.npm"
-    }
+        dockerimagePrefix= = "us-west1-docker.pkg.dev/lab-agibiz/docker-repository"
+        registry = "https://us-west1-docker.pkg.dev"
+        registryCredentials = 'gcp-registry'
 
     stages{
         stage ("saludo a usuario") {
@@ -48,7 +50,11 @@ pipeline {
         }
         stage ("build y push de imagen docker"){
             steps{
-                sh "docker build -t backend-nest-gaboyanez ."
+                docker.withRegistry("${registry}", registryCredentials){
+                    sh "docker build -t backend-nest-gaboyanez ."
+                    sh "dokcer tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
+                    sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
+                }
             }
         }
     }
