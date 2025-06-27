@@ -28,7 +28,7 @@ export class AppController {
 
   @Get('espanol')
   getHelloEspanol(): string {
-    return '';
+    return 'Hola Mundo!!';
   }
 
   @Get('user')
