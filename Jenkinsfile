@@ -6,9 +6,32 @@ pipeline {
     stages{
         stage ("saludo a usuario") {
             steps{
-                sh 'echo "hola a todos desde el pipeline gabo yanez"'
-                sh 'echo "saliendo del pipeline"'
+                sh 'echo "comenzando mi pipeline"'
             }
+        }
+        stage ("salida de los saludos a usuario") {
+            steps{
+                sh '"saliendo de este grupo de escenarios"'
+            }
+        }
+    }
+    stages{
+        stage ("proceso de build y test") {
+            agent {
+                docker {
+                    image 'node:22'
+                    reuseNode true
+                }
+            }
+
+            stages {
+                stage("instalacion de dependencias"){
+                    steps{
+                        sh 'npm ci'
+                    }
+                }
+            }
+
         }
     }
 
