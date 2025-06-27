@@ -50,10 +50,12 @@ pipeline {
         }
         stage ("build y push de imagen docker"){
             steps{
-                docker.withRegistry("${registry}", registryCredentials){
-                    sh "docker build -t backend-nest-gaboyanez ."
-                    sh "dokcer tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
-                    sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
+                script{
+                    docker.withRegistry("${registry}", registryCredentials){
+                        sh "docker build -t backend-nest-gaboyanez ."
+                        sh "dokcer tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
+                        sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
+                    }
                 }
             }
         }
