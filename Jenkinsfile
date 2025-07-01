@@ -54,10 +54,25 @@ pipeline {
                     docker.withRegistry("${registry}", registryCredentials){
                         sh "docker build -t backend-nest-gaboyanez ."
                         sh "docker tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez"
+                        sh "docker tag backend-nest-gaboyanez ${dockerimagePrefix}/backend-nest-gaboyanez:${BUILD_NUMBER}"
                         sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez"
+                        sh "docker push ${dockerimagePrefix}/backend-nest-gaboyanez:${BUILD_NUMBER}"
                     }
                 }
                 
+            }
+        }
+        stage ("actualizacion de kubernetes"){
+            agent {
+                docker {
+                    image 'alpine/k8s:1.30.2'
+                    reuseNode true
+                }
+            }
+            steps {
+                withKubeConfig([credentialsId: 'gcp-kubeconfig']){
+                    sh 'kubectl -n lab-gaboyanez set image deployments/backend-nest-gaboyanez backend-nest-gaboyanez=${dockerimagePrefix}/backend-nest-gaboyanez:${BUILD_NUMBER}'
+                }
             }
         }
     }
